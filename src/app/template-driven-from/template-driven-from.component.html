@@ -1,0 +1,59 @@
+<p>template-driven-from works!</p>
+<form #formdata="ngForm" (submit)="send(formdata)">
+
+
+    <label>name:-</label>
+    <input type="text" name="fname" [(ngModel)]="fname" required #name2="ngModel"
+        [class.is-invalid]="name2.invalid && (name2.dirty||name2.untouched)" pattern="[a-zA-Z ]*"><br>
+
+    <section *ngIf="name2.invalid && (name2.dirty||name2.touched)">
+        <small class="text-danger" *ngIf="name2.errors?.['required']">name is Required</small>
+        <small class="text-danger" *ngIf="name2.errors?.['pattern']">Pattern is in valid.. follow our instruction
+        </small>
+    </section>
+
+
+    <label>email:-</label>
+    <input type="email" name="em" [(ngModel)]="user.email" required #email2="ngModel"
+        [class.is-invalid]="email2.invalid && (email2.untouched||email2.dirty)"
+        pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$">
+
+    <section *ngIf="email2.invalid && (email2.untouched||email2.dirty)">
+        <small class="text-danger" *ngIf="email2.errors?.['required']">email is Required...</small>
+        <small class="text-danger" *ngIf="email2.errors?.['pattern']">please follow the email pattern</small>
+    </section>
+    <br>
+
+    <input type="checkbox" [(ngModel)]="terms" name="terms" required>Accept Terms and conditions <br>
+
+    <!--.................................password start......................................-->
+    <label>password:-</label>
+    <input [type]="show ?'text':'password'" name="pass1" [(ngModel)]="user.pas1" required #pass2="ngModel"
+        pattern="(?=^.{8,}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$"
+        [class.is-invalid]="pass2.invalid && (pass2.dirty||pass2.untouched)">
+    <section *ngIf="pass2.invalid && (pass2.dirty||pass2.untouched)">
+        <small class="text-danger" *ngIf="pass2.errors?.['required']">PASSWORD IS REQUIRED.......</small>
+        <div class="text-danger" *ngIf="pass2.errors?.['pattern']">PASSWORD PATTERN DIDNOT MATCH.......
+            <br>
+            password must be eight characters including one uppercase letter, one special character and alphanumeric
+            characters
+        </div><br>
+        
+    </section>
+    <section>
+        <button type="button" class="btn btn-sm btn-info" (click)="password()">{{show ?'text':'password'}}</button>
+    </section><br>
+    <!--................................... confirm password.........................-->
+    <label>confirm password:----</label><br>
+    <input type="password" name="cpass" required [(ngModel)]="cpass" #cpass2="ngModel" (keyup)="checkingPassword(pass2,cpass2)"
+        [class.is-invalid]="missmatch && (cpass2.dirty||cpass2.untouched)">
+    <section *ngIf="missmatch">
+        <small class="text-danger" *ngIf="cpass2.errors?.['required']">confirm password are required</small>
+        <small class="text-danger" *ngIf="missmatch" >password did not match...</small>
+    </section>
+
+    <!--submit button -->
+    <button type="submit" [disabled]="!formdata.valid || missmatch">submited</button><br>
+    <!-- reset button -->
+    <!-- <button type="reset" (click)="reset(formdata)">reset</button> -->
+</form>

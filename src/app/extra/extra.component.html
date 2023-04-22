@@ -1,0 +1,26 @@
+<p>extra works!</p>
+<form #extra="ngForm" (submit)="send(extra)">
+<div>
+    name:-
+    <input type="text" placeholder="enter your 1st name" name="iname" #n1="ngModel" [(ngModel)]="user.name" required
+    pattern="[a-zA-Z ]*" [class.is-invalid]="n1.invalid && (n1.dirty||n1.untouched)">
+
+    <section *ngIf="n1.invalid && (n1.dirty || n1.untouched)">
+        <small class="text-danger" *ngIf="n1.errors?.['required']">name is required....</small>
+        <small class="text-danger" *ngIf="n1.errors?.['pattern']">please follow the patter</small>
+    </section>
+</div>
+
+<div>
+    password:-
+    <input type="text" name="p1" [(ngModel)]="user.pas1" #pass1="ngModel" required pattern="(?=^.{8,}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$"
+    [class.is-invalid]="pass1.invalid && (pass1.dirty || pass1.touched)">
+    <section *ngIf="pass1.invalid && (pass1.dirty || pass1.untouched)">
+        <small class="text-danger" *ngIf="pass1.errors?.['required']">password is required</small>
+        <small class="text-danger" *ngIf="pass1.errors?.['pattern']">please follow the pattern</small>
+    </section>
+</div>
+
+
+<button type="submit" claas=" btn btn-sm btn-info" [disabled]="extra.invalid">submit</button>
+</form>
